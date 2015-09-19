@@ -97,7 +97,7 @@
       }
 		
       
-		
+		// metodo para listar los alumnos por materias   
       public function listadoAlumnosMateriaAction(Request $request)
       {
          //$session=$request->getSession();                    
