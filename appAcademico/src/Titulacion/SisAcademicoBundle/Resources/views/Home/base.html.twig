@@ -85,10 +85,6 @@
     <script src="{{ asset('js/script/data.js') }}"></script>
     <script src="{{ asset('js/script/drilldown.js') }}"></script>
     <script src="{{ asset('js/script/exporting.js') }}"></script>
-    <!-- <script src="{{ asset('js/script/highcharts-more.js') }}"></script>
-    <script src="{{ asset('js/script/charts-highchart-pie.js') }}"></script>
-    <script src="{{ asset('js/script/charts-highchart-more.js') }}"></script>  -->
-
     <script src="{{ asset('lib/iOS-Overlay/js/iosOverlay.js') }}"></script>
     <script src="{{ asset('lib/iOS-Overlay/js/modernizr-2.0.6.min.js') }}"></script>
     <script src="{{ asset('lib/jquery-spin/spin.min.js') }}"></script>
@@ -111,6 +107,15 @@
         ga('create', 'UA-145464-12', 'auto');
         ga('send', 'pageview');
     </script-->
+
+<script type="text/javascript">
+  $(function () {
+// !IMPORTANT -- FIX ERROR SIDEBAR MENU IN CHARTS-DYNAMIC PAGE
+    $(".page-content").height("1000px");
+    $("#master-detail-chart").parent().height("400px");
+    });  
+</script>
+
   {% endblock %}
     </body>
 </html>
