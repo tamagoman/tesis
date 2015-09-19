@@ -63,7 +63,7 @@
 
       }
 		
-		
+	// metodo para listar las materias	
     public function listadoMateriasAction(Request $request)
       {
          $idDocente  = $request->request->get('idDocente');
