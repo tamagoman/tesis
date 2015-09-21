@@ -27,7 +27,7 @@
             <div id="container" class="panel panel-primary"></div>
           {% endif %}
 
-          <script>
+         <script>
               var indica='{{indica}}';
               if (indica=='na')
               {
@@ -51,9 +51,9 @@
                                 xAxis: {
                                     type: 'category',
                                     labels: {
-                                        rotation: -45,
+                                        rotation: -65,
                                         style: {
-                                            fontSize: '10px',
+                                            fontSize: '11px',
                                             fontFamily: 'Verdana, sans-serif'
                                         }
                                     }
@@ -61,24 +61,24 @@
                                 yAxis: {
                                     min: 0,
                                     title: {
-                                        text: 'Porcentajes de Asistencias'
+                                        text: 'Porcentajes de Asistencias %'
                                     }
                                 },
                                 legend: {
                                     enabled: false
                                 },
                                 tooltip: {
-                                    pointFormat: 'Aprobado con el 70%'
+                                    pointFormat: ''
                                 },
                                 series: [{
                                     name: 'Materias',
                                     data: mySeries ,
                                     dataLabels: {
                                         enabled: true,
-                                        rotation: -100,
+                                        rotation: -50,
                                         color: 'black',
-                                        align: 'right',
-                                        format: '{point.y:.1f}', // one decimal
+                                        align: 'center',
+                                        format: '{point.y}', // one decimal
                                         y: 5, // 10 pixels down from the top
                                         style: {
                                             fontSize: '12px',
