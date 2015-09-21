@@ -63,7 +63,9 @@
             $( "#content-"+idContenedor ).html( "<div id='loading-bar-spinner-relative'><div class='spinner-icon'></div></div>" );
          },
          error: function(){
-            console.log("hay un error");
+            //console.log("hay un error");
+            var mensajeErrorNotas   = "Lo sentimos. Se  presentó un error para cargar la consulta de las Notas."
+            $( "#content-"+idContenedor ).html(mensajeErrorNotas);
          },
          success: function(data) {
             {#if(data.error === true){
