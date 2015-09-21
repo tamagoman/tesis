@@ -18,7 +18,7 @@ class UgServices
            $host       = "186.101.66.2:8080";
            $trama      = "<usuario>".$username."</usuario><contrasena>".$password."</contrasena>";
            $response=$ws->doRequestSreReceptaTransacionProcedimientos($trama,$source,$tipo,$usuario,$clave,$url,$host);
-
+            //pruebas
            return $response;
 
    }#end function
