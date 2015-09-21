@@ -190,25 +190,46 @@
          $datosGeneralesListado["materia"]		= $dataProcesar["materia"];
          $datosGeneralesListado["idParalelo"]	= $dataProcesar["idParalelo"];
          $datosGeneralesListado["paralelo"]		= $dataProcesar["paralelo"];
-           
+
+
          foreach($dataProcesar["periodos"]["periodo"] as $periodoCheck) {
-            $nombreKey	= strtolower(str_replace(" ", "_", $periodoCheck["nombre"]));
-            $periodosMostrar[$nombreKey]					= array();
+            if(is_numeric($periodoCheck["parcial"])) {
+               $nombreKey	= "Parcial_".strtolower(str_replace(" ","_",$periodoCheck["parcial"]));
+            }
+            else {
+               $nombreKey	= strtolower(str_replace(" ","_",$periodoCheck["parcial"]));
+            }
+
+            $periodosMostrar[$nombreKey]           		= array();
             $periodosMostrar[$nombreKey]["componente"]		= array();
 
             $iComponente = 0;
-            foreach($periodoCheck["componePeriodo"] as $componente) {
-               $periodosMostrar[$nombreKey]["componente"]	= $componente;
+            foreach($periodoCheck["componentePeriodo"] as $keyComp => $componente) {
+               if($keyComp=="idNota") {
+                  $periodosMostrar[$nombreKey]["idComponente"]	= $componente;
+               }
+               if($keyComp=="componente") {
+                  $periodosMostrar[$nombreKey]["componente"]		= $componente;
+               }
             }
             $periodosMostrar[$nombreKey]["cantComponentes"] = count($periodosMostrar[$nombreKey]["componente"]);
             $periodosMostrar[$nombreKey]["totalizar"]		= $periodoCheck["totalizar"];
+            if($periodosMostrar[$nombreKey]["totalizar"]=="SI") {
+               $periodosMostrar[$nombreKey]["cantComponentes"]++;
+               array_push($periodosMostrar[$nombreKey]["idComponente"], "99999999");
+               array_push($periodosMostrar[$nombreKey]["componente"], "total");
+            }
          }
-         
+
+         //var_dump($periodosMostrar);
+         //var_dump($dataProcesar["estudiantes"]["estudiante"]);
+         //echo count($dataProcesar["estudiantes"]["estudiante"]);
+
          $datosEstudiantes	= array();
          foreach($dataProcesar["estudiantes"]["estudiante"] as $estudiante) {
             $tempArrayEst = NULL;
             $tempArrayEst["idEstudiante"]	= $estudiante["idEstudiante"];
-            $tempArrayEst["estudiante"]	= $estudiante["estudiante"];
+            $tempArrayEst["estudiante"]		= $estudiante["estudiante"];
             $tempArrayEst["ciclo"]			= $estudiante["ciclo"];
             $tempArrayEst["estadoCiclo"]	= $estudiante["estadoCiclo"];
             $tempArrayEst["parciales"]		= array();
@@ -226,7 +247,7 @@
                      $tempComponente	= str_replace("ú","u",$tempComponente);
                      $tempComponente	= str_replace("ñ","n",$tempComponente);
 
-                     $tempArrayEst["parciales"][$keyPeriodo][$tempComponente] = 0;
+                     $tempArrayEst["parciales"][$keyPeriodo][$tempComponente] = "-";
                   }
                }
                elseif($valuePeriodo["componente"]!=NULL) {
@@ -238,7 +259,7 @@
                   $tempComponente	= str_replace("ú","u",$tempComponente);
                   $tempComponente	= str_replace("ñ","n",$tempComponente);
 
-                  $tempArrayEst["parciales"][$keyPeriodo][$tempComponente] = 0;
+                  $tempArrayEst["parciales"][$keyPeriodo][$tempComponente] = "-";
                }
             }
 
@@ -247,7 +268,13 @@
             if(isset($estudiante["parciales"]["Parcial"])) {
                //Si entra aqui quiere decir que tiene SOLO UN parcial
                $tempComponente = NULL;
-               $keyParcial	= strtolower(str_replace(" ","_",$estudiante["parciales"]["Parcial"]));
+               if(is_numeric($estudiante["parciales"]["Parcial"])) {
+                  $keyParcial	= "Parcial_".strtolower(str_replace(" ","_",$estudiante["parciales"]["Parcial"]));
+               }
+               else {
+                  $keyParcial	= strtolower(str_replace(" ","_",$estudiante["parciales"]["Parcial"]));
+               }
+
                if(isset($estudiante["parciales"]["notas"]["nota"]["Nota"])) {
                   //Si entra aqui es porque solo trae una nota (ej.Mejoramiento)
                   $keyComponente	= strtolower($estudiante["parciales"]["notas"]["nota"]["tipoNota"]);
@@ -277,7 +304,7 @@
                      $keyComponente	= str_replace("ñ","n",$tempComponente);
                      $tempArrayEst["parciales"][$keyParcial][$keyComponente] = $notaComponente;
                   }
-                  //var_dump($estudiante["parciales"]["notas"]["nota"]);
+                  
                }
 
 
@@ -286,7 +313,13 @@
                //Si entra aqui quiere decir que tiene mas de un parcial
                //var_dump($estudiante["parciales"]);
                foreach($estudiante["parciales"] as $keyParcial => $dataParcial) {
-                  $keyParcial	= strtolower(str_replace(" ","_",$dataParcial["Parcial"]));
+                  //var_dump($dataParcial);
+                  if(is_numeric($dataParcial["Parcial"])) {
+                     $keyParcial	= "Parcial_".strtolower(str_replace(" ","_",$dataParcial["Parcial"]));
+                  }
+                  else {
+                     $keyParcial	= strtolower(str_replace(" ","_",$dataParcial["Parcial"]));
+                  }
 
                   foreach($dataParcial["notas"] as $keyNotas => $dataNotas) {
 
@@ -321,44 +354,18 @@
                         }
                      }
 
-
-
                      $tempArrayEst["parciales"][$keyParcial][$keyComponente] = $notaComponente;
-
+                     if($periodosMostrar[$keyParcial]["totalizar"]=="SI"){
+                        $tempArrayEst["parciales"][$keyParcial]["total"]		= $dataParcial["total"];
+                     }
                   }				
                }
 
-            }
-            foreach($estudiante["parciales"] as $keyPeriodo => $valuePeriodo) {
-               //echo "-";
-               //var_dump($valuePeriodo);
-               //echo "-";
-               //$tempArrayEst["parciales"][$keyPeriodo]
             }
 
             array_push($datosEstudiantes, $tempArrayEst);
          }
          
-         
-         
-//         var_dump($datosGeneralesListado);
-//         var_dump($periodosMostrar);
-//         var_dump($datosEstudiantes);
-         
-//         $datosNotasProcesar  = $datosNotasArray["registro"];
-//         
-//         $dataEstudiantes   = array();
-//         foreach($datosNotasProcesar["estudiantes"] as $keyEst => $dataEstudiante) {
-//            
-//            array_push($dataEstudiantes, $dataEstudiante);
-//         }
-//         $datosNotasProcesar["estudiantes"]  = NULL;
-//         $datosNotasProcesar["estudiantes"]  = $dataEstudiantes[0];
-//echo "<pre>";
-//echo var_dump($datosNotasProcesar);
-//echo "</pre>";
-//
-
        //listadoMaterias
          return $this->render('TitulacionSisAcademicoBundle:Docentes:listadoNotasMateria.html.twig',
                          array(
