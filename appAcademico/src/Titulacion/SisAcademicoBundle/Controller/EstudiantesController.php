@@ -1,7 +1,7 @@
 <?php
 //consultaNotas
    namespace Titulacion\SisAcademicoBundle\Controller;
-// prueba git
+
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Request;
@@ -268,7 +268,7 @@
                                 throw new \Exception('Un error');
                              }
                          }
-                            if ($idIndica=='na') //JOSELINE
+                            if ($idIndica=='na')
                             {
                                $xml = $UgServices->getConsultaNotas_act($idFacultad,$idCarrera,$idEstudiante);
                           if ( is_object($xml))
