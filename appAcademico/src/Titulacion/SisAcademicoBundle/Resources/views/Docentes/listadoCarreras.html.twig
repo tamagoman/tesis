@@ -279,6 +279,11 @@
                beforeSend: function () {
                  //optionSelect.closest(".panel-body").html("Procesando, espere por favor...");
                },
+               error: function(){
+                  //console.log("hay un error");
+                  var mensajeErrorNotas   = "Lo sentimos. Se  presentó un problema para cargar el listado de asistencias."
+                  lanzarModal('Listado de asistencias',mensajeErrorNotas,'Aceptar');//alert(mensajeErrorNotas);
+               },
                success:  function (dataResponse) {
                  //console.log(optionSelect.closest(".panel-body"));
                  optionSelect .html(dataResponse);
@@ -314,6 +319,11 @@
                async: false,
                beforeSend: function () {
                  //optionSelect.closest(".panel-body").html("Procesando, espere por favor...");
+               },
+               error: function(){
+                  //console.log("hay un error");
+                  var mensajeErrorNotas   = "Lo sentimos. Se  presentó un problema para cargar la consulta de notas."
+                  lanzarModal('Consulta de Notas',mensajeErrorNotas,'Aceptar');//alert(mensajeErrorNotas);
                },
                success:  function (dataResponse) {
                  //console.log(optionSelect.closest(".panel-body"));
@@ -351,6 +361,11 @@
                async: false,
                beforeSend: function () {
                  //optionSelect.closest(".panel-body").html("Procesando, espere por favor...");
+               },
+               error: function(){
+                  //console.log("hay un error");
+                  var mensajeErrorNotas   = "Lo sentimos. Se  presentó un problema para cargar la vista general de la materia."
+                  lanzarModal('Vista General de la Materia',mensajeErrorNotas,'Aceptar');
                },
                success:  function (dataResponse) {
                  //console.log(optionSelect.closest(".panel-body"));
@@ -405,6 +420,11 @@
                   async: false,
                   beforeSend: function () {
                      tablaMaterias.html("Cargando, espere por favor...");
+                  },
+                  error: function(){
+                     var mensajeErrorNotas   = "Lo sentimos. Se  presentó un problema para cargar el listado de materias."
+                     tablaMaterias.html("");
+                     lanzarModal('Listado de Materias',mensajeErrorNotas,'Aceptar');
                   },
                   success:  function (dataResponse) {
                    // sitioCargado(notificacionIndex);

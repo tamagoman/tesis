@@ -60,7 +60,7 @@
 					  <tr>
                   <td> <div style="float:left;">{{ dataAsist.apellidos|upper }} <br/> {{ dataAsist.nombres|capitalize }}</div><!-- <div style="float:right;"><a class="btn btn-primary btn-circle" href="/SisAcade<!-- mico/web/app_dev.php/home/materias/1/2" title="Notas del Semestre"><i class="fa fa-book"></i></a></div> --></td>
 						{% for fechasAsistEstud in dataAsist.fechas %}
-                  <td style="text-align:center;"> <button class="btn {% if fechasAsistEstud == 1 %} btn-success {% else %} btn-danger {% endif %} btn-circle" type="button" style="cursor: default;"><i class="fa fa-check"></i></button> </td>
+                  <td style="text-align:center;"> <button class="btn {% if fechasAsistEstud == 'V' %} btn-success {% else %} btn-danger {% endif %} btn-circle" type="button" style="cursor: default;"><i class="fa fa-check"></i></button> </td>
 						{% endfor %}
 					  </tr>
 					{% endfor %}
