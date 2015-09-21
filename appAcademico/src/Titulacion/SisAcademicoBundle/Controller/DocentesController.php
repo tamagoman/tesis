@@ -111,14 +111,14 @@
                                  'idDocente' => $idDocente);
          $UgServices    = new UgServices;
          $datosAsistenciasXML  = $UgServices->Docentes_getAsistenciasMaterias($datosConsulta);
-         //var_dump($datosAsistenciasXML);
          
          $dataAsistencia   = array();
          $arregloFechas    = array();
          
          if($datosAsistenciasXML!=NULL) {
             //PARA OBTENER EL ARREGLO DE FECHAS
-            foreach($datosAsistenciasXML[0] as $keyFecha => $valueFecha){
+            foreach($datosAsistenciasXML["alumno"][0] as $keyFecha => $valueFecha){
+               //var_dump($keyFecha);
                $regExp = "/(f)([0-9]{2}\\-[0-9]{2}\\-[0-9]{4})/";
                $tempFecha['diaVal'] = '';
                $tempFecha['diaNom'] = '';
@@ -129,7 +129,7 @@
                }
             }
             //PARA GRABAR LOS ESTADOS DE LAS ASISTENCIAS POR ALUMNO
-            foreach($datosAsistenciasXML as $dataAlumno){
+            foreach($datosAsistenciasXML["alumno"] as $dataAlumno){
                $dataAsistenciaReg   = array();
                $dataAsistenciaReg['nombres']   = $dataAlumno['nombres'];
                $dataAsistenciaReg['apellidos'] = $dataAlumno['apellidos'];
@@ -677,5 +677,14 @@
                               );
                         return $response;
         }
+        
+      function nombresDias($nombreIngles) {
+         $diasEspaniol  = array("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo");
+         $diasIngles    = array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
+         
+         $nombreIngles  = str_replace($diasIngles, $diasEspaniol, strtolower($nombreIngles));
+         
+         return $nombreIngles;
+      }
 		
    }

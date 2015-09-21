@@ -195,34 +195,64 @@ XML;
          $day                          = date('w')-1;
          $datosConsulta["fechaInicio"] = date('d-m-Y', strtotime('-'.$day.' days'));
          $datosConsulta["fechaFin"]    = date('d-m-Y', strtotime('+'.(6-$day).' days'));
-         
+      }
+
+         /*informacion quemada - inicio*/
          $datosConsulta["fechaInicio"] = '31/08/2015';
          $datosConsulta["fechaFin"]    = '02/09/2015';
-         
-      }
-      
-      $datosConsulta["idParalelo"] = 1;
-      $datosConsulta["anio"] = 2015;
-      $datosConsulta["ciclo"] = 1;
+         $datosConsulta["idDocente"]  = 31;
+         $datosConsulta["idMateria"]   = 51;
+         $datosConsulta["idParalelo"]  = 7;
+         $datosConsulta["anio"]        = 2015;
+         $datosConsulta["ciclo"]       = 4;
+         /*informacion quemada - fin*/
+
            $ws         = new AcademicoSoap();
-           $tipo       = "4";
+           $tipo       = "9";
            $usuario    = "abc";
            $clave      = "123";
-           $source     = "jdbc/procedimientosSaug";
+           $source     = "jdbc/saugProcTmp";
            //Local
            //$url        = "http://192.168.100.11:8080/WSObjetosUg/ServicioWebObjetos?wsdl";
            //$host       = "192.168.100.11:8080";
            //Internet
-           $url        = "http://186.101.66.2:8080/WSObjetosUg/ServicioWebObjetos?wsdl";
+           //$url        = "http://186.101.66.2:8080/WSObjetosUg/ServicioWebObjetos?wsdl";
+           //$host       = "186.101.66.2:8080";
+           //Internet #2
+           $url        = "http://186.101.66.2:8080/WSObjetosUgPre/ServicioWebObjetos?wsdl";
            $host       = "186.101.66.2:8080";
            $trama      = "<fechaInicio>".$datosConsulta["fechaInicio"]."</fechaInicio><fechaFin>".$datosConsulta["fechaFin"]."</fechaFin>".
                          "<idProfesor>".$datosConsulta["idDocente"]."</idProfesor><idMateria>".$datosConsulta["idMateria"]."</idMateria><idParalelo>".$datosConsulta["idParalelo"]."</idParalelo>".
                          "<anio>".$datosConsulta["anio"]."</anio><ciclo>".$datosConsulta["ciclo"]."</ciclo>";
-            $xpath       = "asistencia";         
-            $xmlData["XML_test"] = NULL;
+            $xpath       = "asistencia"; 
+$XML        = <<<XML
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:ejecucionObjetoResponse xmlns:ns2="http://servicios.ug.edu.ec/">
+         <return>
+            <codigoRespuesta>0</codigoRespuesta>
+            <estado>F</estado>
+            <idHistorico>30334</idHistorico>
+            <mensajeRespuesta>ok</mensajeRespuesta>
+            <resultadoObjeto>
+               <parametrosSalida>
+                  <PX_SALIDA><![CDATA[<asistencia><alumno><nombres>XAVIER </nombres><apellidos>MORA</apellidos><f01-09-2015>V</f01-09-2015><f02-09-2015>V</f02-09-2015><f03-09-2015>V</f03-09-2015><f04-09-2015>V</f04-09-2015><f07-09-2015>V</f07-09-2015><f08-09-2015>V</f08-09-2015><f09-09-2015>V</f09-09-2015><f10-09-2015>V</f10-09-2015><f11-09-2015>V</f11-09-2015><f14-09-2015>V</f14-09-2015><f15-09-2015>V</f15-09-2015></alumno><alumno><nombres>CARLOS </nombres><apellidos>TERAN</apellidos><f01-09-2015>V</f01-09-2015><f02-09-2015>V</f02-09-2015><f03-09-2015>V</f03-09-2015><f04-09-2015>F</f04-09-2015><f07-09-2015>V</f07-09-2015><f08-09-2015>V</f08-09-2015><f09-09-2015>F</f09-09-2015><f10-09-2015>V</f10-09-2015><f11-09-2015>V</f11-09-2015><f14-09-2015>V</f14-09-2015><f15-09-2015>V</f15-09-2015></alumno></asistencia>]]></PX_SALIDA>
+                  <PI_ESTADO>1</PI_ESTADO>
+                  <PV_MENSAJE>CONSULTA CON DATOS</PV_MENSAJE>
+                  <PV_CODTRANS>7</PV_CODTRANS>
+                  <PV_MENSAJE_TECNICO/>
+               </parametrosSalida>
+            </resultadoObjeto>
+         </return>
+      </ns2:ejecucionObjetoResponse>
+   </soap:Body>
+</soap:Envelope>
+XML;
+            //$XML = NULL;
+            $xmlData["XML_test"] = $XML;
             $xmlData["xpath"] = $xpath;
-            $xmlData["bloqueRegistros"] = 'registros';
-            $xmlData["bloqueSalida"] = 'salida';
+            $xmlData["bloqueRegistros"] = 'asistencia';
+            $xmlData["bloqueSalida"] = 'px_salida';
             //var_dump($trama);          
             $response=$ws->doRequestSreReceptaTransacionObjetos_Registros($trama,$source,$tipo,$usuario,$clave,$url,$host, $xmlData);
 
