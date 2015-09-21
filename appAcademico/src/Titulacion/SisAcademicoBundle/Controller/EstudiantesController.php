@@ -268,7 +268,7 @@
                                 throw new \Exception('Un error');
                              }
                          }
-                            if ($idIndica=='na')
+                            if ($idIndica=='na') //JOSELINE
                             {
                                $xml = $UgServices->getConsultaNotas_act($idFacultad,$idCarrera,$idEstudiante);
                           if ( is_object($xml))
